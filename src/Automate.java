@@ -1,16 +1,17 @@
 import javax.print.attribute.standard.Destination;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class Automate {
     private Alphabet alpha;
-    private TreeSet<Etat> ensEtats;
+    private TreeSet<Etat> ens;
     private Etat etatInit;
     private TreeSet<Etat> etatFin;
     private TreeSet<Instruction> instructions;
 
-    public Automate(Alphabet alpha, TreeSet<Etat> ensEtats, Etat etatInit, TreeSet<Etat> etatFin, TreeSet<Instruction> instructions) {
+    public Automate(Alphabet alpha, TreeSet<Etat> ens, Etat etatInit, TreeSet<Etat> etatFin, TreeSet<Instruction> instructions) {
         this.alpha = alpha;
-        this.ensEtats = ensEtats;
+        this.ens = ens;
         this.etatInit = etatInit;
         this.etatFin = etatFin;
         this.instructions = instructions;
@@ -24,12 +25,12 @@ public class Automate {
         this.alpha = alpha;
     }
 
-    public TreeSet<Etat> getEnsEtats() {
-        return ensEtats;
+    public TreeSet<Etat> getEns() {
+        return ens;
     }
 
-    public void setEnsEtats(TreeSet<Etat> ensEtats) {
-        this.ensEtats = ensEtats;
+    public void setEns(TreeSet<Etat> ens) {
+        this.ens = ens;
     }
 
     public Etat getEtatInit() {
@@ -56,48 +57,18 @@ public class Automate {
         this.instructions = instructions;
     }
 
-    public void reduire (){
-        for(Etat etat: this.ensEtats){
-            boolean accessible =false;
-            boolean coAccessible=false;
-                for(Instruction inst: this.instructions){
-                    if(etat.equals(this.etatInit)) {
-                        accessible=true;
-                        } else{
-                             if((inst.getEtatf().equals(etat))&&(!inst.getEtatd().equals(etat))){ accessible=true; }
-                             }
-                     if(this.etatFin.contains(etat) ) coAccessible=true;
-                        else{
-                         for(Instruction instruction: this.instructions){
-                             if(instruction.getEtatd().equals(etat)&&(!instruction.getEtatf().equals(etat))){coAccessible=true;}
-
-                         }
-                     }
-                }
-             if(accessible==false&&coAccessible==false){
-                 this.etatFin.remove(etat);
-                 this.ensEtats.remove(etat);
-                 for(Instruction instruction:this.instructions){
-                     if((instruction.getEtatf().equals(etat))||(instruction.getEtatd().equals(etat))){
-                         System.out.println("i'm here lel");
-                         this.instructions.remove(instruction);
-                     }
-                 }
-             }
-        }
-    }
     public void afficher(){
         System.out.print("L'alphabet ");
         this.alpha.afficher();
-        System.out.print("L'ensemble des etats");
-        for(Etat etat:this.ensEtats){
+        System.out.print("/nL'ensemble des : ");
+        for(Etat etat:this.ens){
             etat.afficher();}
-        System.out.print("L'etat initial ");
+        System.out.print("/nL'etat initial ");
         this.etatInit.afficher();
-        System.out.print("Les etats fineaux ");
+        System.out.print("/nLes  finaux ");
         for(Etat etat:this.etatFin){
         etat.afficher();}
-        System.out.print("L'ensemble des instructions ");
+        System.out.print("/nL'ensemble des instructions ");
         for(Instruction instruction:this.instructions){
             instruction.afficher();
         }
@@ -105,7 +76,7 @@ public class Automate {
     }
     public Automate Miroir(){
         TreeSet<Etat> etatM =new TreeSet<Etat>();
-        etatM=(TreeSet) this.ensEtats.clone();
+        etatM=(TreeSet) this.ens.clone();
         TreeSet<Etat>  etatFM= new TreeSet<Etat>();
         etatFM.add(this.etatInit);
         Etat etatIM =new Etat("SIm");
@@ -129,5 +100,27 @@ public class Automate {
 
 
         return automatem;
+    }
+    public void reduction () {
+        ArrayList<Etat> accessibles = new ArrayList<>();
+        accessibles.add(this.getEtatInit());
+        ArrayList<Etat> non_accessibles = new ArrayList<>();
+        for ( Etat etat:this.ens){
+            if (!(etat.equals(this.etatInit))) non_accessibles.add(etat);
+        }
+        boolean done=false;
+        int i=0;
+        while(!done){
+            for ( Instruction ins:this.instructions){
+                if(ins.startsWith(accessibles.get(i))) {
+                    if (!(accessibles.contains(ins.getEtatf()))) {
+                        non_accessibles.remove(ins.getEtatf());
+                        accessibles.add(ins.getEtatf());
+                    }
+                }
+            }
+            i++;
+            if(i>accessibles.size()) done=false;
+        }
     }
 }

@@ -34,8 +34,9 @@ public class Instruction implements Comparable {
     }
     public void afficher(){
         this.etatd.afficher();
-        System.out.print(" "+this.al);
+        System.out.print("--"+this.al+"-->");
         this.etatf.afficher();
+        System.out.print(" | ");
     }
 
     @Override
@@ -50,4 +51,13 @@ public class Instruction implements Comparable {
         this.etatd=this.etatf;
         this.etatf=etatDb;
     }
+    public boolean startsWith(Etat etat){
+        if(this.etatd.equals(etat)) return true;
+        else return false;
+    }
+    public boolean endsWith(Etat etat){
+        if(this.etatf.equals(etat)) return true;
+        else return false;
+    }
+
 }
