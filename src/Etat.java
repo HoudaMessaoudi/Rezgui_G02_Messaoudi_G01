@@ -15,7 +15,7 @@ public class Etat implements Comparable {
 
     @Override
     public boolean equals(Object obj) {
-        return this.Nom.equals((Etat)obj);
+        return this.Nom.equals(((Etat)obj).getNom());
     }
     public void afficher(){
         System.out.print(this.Nom+' ');

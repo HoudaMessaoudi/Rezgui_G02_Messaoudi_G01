@@ -3,7 +3,7 @@ import java.util.*;
 public class Main {
 
     public static void main (String args[])
-    {   Scanner mych9 = new Scanner(System.in);
+    {  /* Scanner mych9 = new Scanner(System.in);
         System.out.println("Veuillez introduire le nombre de characteres dans votre alphabet: ");
         int car_alphabet= mych9.nextInt();
         TreeSet<Character> alpha = new TreeSet<Character>();
@@ -74,10 +74,10 @@ public class Main {
                 System.out.println("Veuillez entrer un character de l'alphabet  ");
                 char c;
                     /*while(true){*/
-                        c=mych9.next().charAt(0);
+                        //c=mych9.next().charAt(0);
                        /* if(alpha.contains(c)) break;
                         System.out.println("le char "+ c +"n'existe pas");
-                    }*/
+                    }/
                  Instruction instruction=new Instruction(db,fn,c);
                     instructions.add(instruction);
 
@@ -85,12 +85,38 @@ public class Main {
             }
             for(Instruction inst: instructions){
                 inst.afficher();
-            }
-                Automate automata = new Automate(al,etats,etatInit,EF,instructions);
-                Automate auto=automata.Miroir();
-                auto.afficher();
-
-
+            }*/
+                TreeSet<Character> al= new TreeSet<Character>();
+                al.add('a'); al.add('b'); al.add('c');
+                Alphabet alph = new Alphabet(al);
+                Etat s0= new Etat("s0");
+                Etat s1= new Etat("s1");
+                Etat s2= new Etat("s2");
+                Etat s3= new Etat("s3");
+                Etat s4= new Etat("s4");
+                Etat s5= new Etat("s5");
+                TreeSet<Etat> etats= new TreeSet<>();
+                etats.add(s0); etats.add(s1); etats.add(s2); etats.add(s3);etats.add(s4);etats.add(s5);
+                TreeSet<Etat> etatf= new TreeSet<Etat>();
+                etatf.add(s0); etatf.add(s4);
+                TreeSet<Instruction> ins= new TreeSet<Instruction>();
+                Instruction in1= new Instruction(s0, s0 ,'a');
+                Instruction in2= new Instruction(s0, s1 ,'#');
+                Instruction in3= new Instruction(s1, s2 ,'#');
+                Instruction in4= new Instruction(s2, s2 ,'b');
+                Instruction in5= new Instruction(s2, s3 ,'#');
+                Instruction in6= new Instruction(s3, s2 ,'b');
+                Instruction in7= new Instruction(s2, s5 ,'a');
+                Instruction in8= new Instruction(s2, s1 ,'a');
+                Instruction in9= new Instruction(s1, s0 ,'c');
+                Instruction in10= new Instruction(s4, s0 ,'a');
+                Instruction in11= new Instruction(s4, s4 ,'b');
+                ins.add(in1); ins.add(in2); ins.add(in3); ins.add(in4); ins.add(in5); ins.add(in6); ins.add(in7); ins.add(in8); ins.add(in9); ins.add(in10); ins.add(in11);
+                Automate automata = new Automate(alph,etats,s0,etatf,ins);
+                automata.afficher();
+                automata.reduction_accessible();
+                automata.reduction_coaccessible();
+                automata.afficher();
 
 
 

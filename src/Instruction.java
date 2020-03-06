@@ -59,5 +59,10 @@ public class Instruction implements Comparable {
         if(this.etatf.equals(etat)) return true;
         else return false;
     }
+    public boolean contains(Etat etat){
+        if ((this.etatf.equals(etat))||(this.etatd.equals(etat))){ return true;}
+        else return false;
+    }
+
 
 }

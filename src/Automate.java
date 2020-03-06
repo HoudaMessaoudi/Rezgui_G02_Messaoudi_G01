@@ -60,15 +60,15 @@ public class Automate {
     public void afficher(){
         System.out.print("L'alphabet ");
         this.alpha.afficher();
-        System.out.print("/nL'ensemble des : ");
+        System.out.print("\nL'ensemble des : ");
         for(Etat etat:this.ens){
             etat.afficher();}
-        System.out.print("/nL'etat initial ");
+        System.out.print("\nL'etat initial ");
         this.etatInit.afficher();
-        System.out.print("/nLes  finaux ");
+        System.out.print("\nLes  finaux ");
         for(Etat etat:this.etatFin){
         etat.afficher();}
-        System.out.print("/nL'ensemble des instructions ");
+        System.out.print("\nL'ensemble des instructions ");
         for(Instruction instruction:this.instructions){
             instruction.afficher();
         }
@@ -101,7 +101,7 @@ public class Automate {
 
         return automatem;
     }
-    public void reduction () {
+    public void reduction_accessible () {
         ArrayList<Etat> accessibles = new ArrayList<>();
         accessibles.add(this.getEtatInit());
         ArrayList<Etat> non_accessibles = new ArrayList<>();
@@ -120,7 +120,55 @@ public class Automate {
                 }
             }
             i++;
-            if(i>accessibles.size()) done=false;
+            if((i+1)>accessibles.size()) {done=true;}
+        }
+        if(!non_accessibles.isEmpty()) {
+            TreeSet<Instruction> in= new TreeSet<>();
+            for ( Etat e:non_accessibles){
+                this.ens.remove(e);
+                this.etatFin.remove(e);
+                for (Instruction ins:this.instructions){
+                    if ((!(non_accessibles.contains(ins.getEtatd()))&&!(non_accessibles.contains(ins.getEtatf())))){
+                        in.add(ins);
+                    }
+                }
+                this.instructions=in;
+            }
         }
     }
+    public void reduction_coaccessible(){
+        ArrayList<Etat> coaccessible= new ArrayList<>();
+        for ( Etat e:this.etatFin){ coaccessible.add(e);}
+        ArrayList<Etat> non_coaccessible= new ArrayList<>();
+        for (Etat e: this.ens){if(!(coaccessible.contains(e))){non_coaccessible.add(e);}}
+        boolean done=false;
+        int i=0;
+        while(!done){
+            for ( Instruction ins:this.instructions){
+                if(ins.endsWith(coaccessible.get(i))) {
+                    if (!(coaccessible.contains(ins.getEtatd()))) {
+                        non_coaccessible.remove(ins.getEtatd());
+                        coaccessible.add(ins.getEtatd());
+                    }
+                }
+            }
+            i++;
+            if((i+1)>coaccessible.size()) {done=true;}
+        }
+        if(!non_coaccessible.isEmpty()) {
+            TreeSet<Instruction> in= new TreeSet<>();
+            for ( Etat e:non_coaccessible){
+                this.ens.remove(e);
+            }
+            for (Instruction ins:this.instructions){
+                if ((!(non_coaccessible.contains(ins.getEtatd()))&&!(non_coaccessible.contains(ins.getEtatf())))){
+                    in.add(ins);
+                }
+            }
+            this.instructions=in;
+        }
+
+
+    }
+
 }
