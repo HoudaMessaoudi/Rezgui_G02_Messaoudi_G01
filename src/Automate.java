@@ -1,3 +1,5 @@
+import jdk.nashorn.api.tree.Tree;
+
 import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -198,8 +200,45 @@ public class Automate {
         return true;
     }
     public void deterministe(){
-        TreeMap <Character,TreeSet<Etat>> map1=new TreeMap<>();
-        TreeMap<Character,TreeMap <TreeSet<Etat>,TreeSet<Etat>>> map2=new TreeMap<>();
 
+        //TreeMap <TreeSet<Etat>,TreeSet<Etat>> map1=new TreeMap<>();
+       // TreeMap<TreeSet<Etat>/*EtatDb*/,TreeMap <Character,TreeSet<Etat>/*EtatFN*/>> map2=new TreeMap<>();
+        //if(this.isSimple()){
+         //   TreeSet<Etat> etatDet= new TreeSet<>();
+           // etatDet.add(this.etatInit);
+
+        //}
+
+
+        TreeSet<InstructionM> instructionsM= new TreeSet<>();
+        TreeSet<TreeSet<Etat>>etatsM =  new TreeSet<>(new Froggo());
+        TreeSet<Etat> etats=new TreeSet<>();
+        etats.add(this.etatInit);
+        etatsM.add(etats);
+        for(TreeSet<Etat> t: etatsM){
+            for(Etat e : t){
+                for (char c : this.alpha.getAlpha()){
+                    InstructionM instM;
+                    TreeSet<Etat> etatFNM= new TreeSet<>();
+                    for(Instruction inst:this.instructions){
+                        if(inst.startsWith(e,c)) {
+                            etatFNM.add(inst.getEtatf());
+                        }
+                    }
+                    if(!etatFNM.isEmpty()){
+                        instM =new InstructionM(t,etatFNM,c);
+                        instructionsM.add(instM);
+                        etatsM.add(etatFNM);
+                    }
+                }
+            }
+        }
+        for(TreeSet<Etat> tr: etatsM) {
+            System.out.println("\netat: ");
+            for(Etat e: tr){
+                e.afficher();
+            }
+
+        }
     }
 }

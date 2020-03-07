@@ -63,6 +63,8 @@ public class Instruction implements Comparable {
         if ((this.etatf.equals(etat))||(this.etatd.equals(etat))){ return true;}
         else return false;
     }
-
-
+    public boolean startsWith(Etat etat,char c){
+        if((this.etatd.equals(etat))&&(this.al==c)) return true;
+        else return false;
+    }
 }
