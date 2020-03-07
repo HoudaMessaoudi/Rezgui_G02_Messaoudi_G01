@@ -287,12 +287,27 @@ public class Automate {
        this.etatFin=etatFC;
 
     }
-    /*public boolean reconnaissance(String mot){
+    public boolean reconnaissance(String mot){
         if(this.isDeterministe()){
         Etat etatCourant= this.etatInit;
-        while(true) {
-
+        boolean t=true;
+        int j=mot.length();
+        int i=0; int k=0;
+        char c;
+        while(t&&(i<j)){
+            c=mot.charAt(i);
+            for (Instruction ins:this.instructions){
+                if(ins.startsWith(etatCourant,c)){
+                    etatCourant=ins.getEtatf();
+                    i++;
+                }
+            }
+            if(i>k){k++;}
+            else{t=false;}
         }
+        if (!this.ens.contains(etatCourant)){t=false;}
+        return t;
         }
-    }*/
+        else{return false;}
+    }
 }
