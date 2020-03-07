@@ -119,7 +119,7 @@ public class Main {
                // automata.reduction_coaccessible();
 
                 System.out.println("complet: "+automata.isComplet());
-                automata.Complet();
+                automata.complement();
                 automata.afficher();
 
 

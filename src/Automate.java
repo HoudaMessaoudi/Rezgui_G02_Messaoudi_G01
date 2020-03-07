@@ -277,21 +277,22 @@ public class Automate {
         }
     }
 
-    public Automate complement(){
-        TreeSet<Etat> etatsC= (TreeSet) this.ens.clone();
+    public void complement(){
+        if(!this.isComplet()) this.Complet();
+
         TreeSet<Etat> etatFC = new TreeSet<Etat>();
         for(Etat e: this.ens){
             if(!this.etatFin.contains(e)) etatFC.add(e);
         }
-        Automate automateC=new Automate(this.alpha,etatsC,this.etatInit,etatFC,this.instructions);
-        return automateC;
+       this.etatFin=etatFC;
+
     }
-    public boolean reconnaissance(String mot){
+    /*public boolean reconnaissance(String mot){
         if(this.isDeterministe()){
         Etat etatCourant= this.etatInit;
         while(true) {
 
         }
         }
-    }
+    }*/
 }
