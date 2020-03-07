@@ -87,7 +87,7 @@ public class Main {
                 inst.afficher();
             }*/
                 TreeSet<Character> al= new TreeSet<Character>();
-                al.add('a'); al.add('b'); al.add('c');
+                al.add('a'); al.add('b'); //al.add('c');
                 Alphabet alph = new Alphabet(al);
                 Etat s0= new Etat("s0");
                 Etat s1= new Etat("s1");
@@ -105,7 +105,7 @@ public class Main {
                 Instruction in3= new Instruction(s1, s2 ,'b');
                 Instruction in4= new Instruction(s2, s2 ,'a');
                 Instruction in5= new Instruction(s2, s1 ,'a');
-                Instruction in6= new Instruction(s2, s2 ,'b');
+                Instruction in6= new Instruction(s2, s2 ,'a');
                 Instruction in7= new Instruction(s1, s0 ,'b');
                 /*Instruction in8= new Instruction(s2, s1 ,'a');
                 Instruction in9= new Instruction(s1, s0 ,'c');
@@ -118,7 +118,9 @@ public class Main {
                // automata.reduction_accessible();
                // automata.reduction_coaccessible();
 
-                automata.deterministe();
+                System.out.println("complet: "+automata.isComplet());
+                automata.Complet();
+                automata.afficher();
 
 
 
