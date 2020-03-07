@@ -114,10 +114,12 @@ public class Main {
                 ins.add(in1); ins.add(in2); ins.add(in3); ins.add(in4); ins.add(in5); ins.add(in6); ins.add(in7); ins.add(in8); ins.add(in9); ins.add(in10); ins.add(in11);
                 Automate automata = new Automate(alph,etats,s0,etatf,ins);
                 automata.afficher();
+                System.out.println(automata.isDeterministe());
                 automata.reduction_accessible();
                 automata.reduction_coaccessible();
-                automata.afficher();
 
+                automata.afficher();
+                System.out.println(automata.isSimple());
 
 
 

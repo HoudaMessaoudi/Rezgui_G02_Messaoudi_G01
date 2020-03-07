@@ -1,5 +1,6 @@
 import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Automate {
@@ -170,5 +171,35 @@ public class Automate {
 
 
     }
+    public boolean isDeterministe () {
+        for(Etat etat:this.ens){
+            for(Character character:this.alpha.getAlpha()){
+                int i=0;
+                for(Instruction instruction:this.instructions){
+                    if(instruction.getAl()=='#') return false;
+                    if(instruction.startsWith(etat)&&(instruction.getAl()==character)) {
+                        i++;
+                        if(i>1) {
+                            return false;
 
+                        }
+                    }
+                }
+            }
+
+        }
+        return true;
+    }
+
+    public boolean isSimple(){
+        for(Instruction instruction: this.instructions){
+            if(instruction.getAl()=='#') return false;
+        }
+        return true;
+    }
+    public void deterministe(){
+        TreeMap <Character,TreeSet<Etat>> map1=new TreeMap<>();
+        TreeMap<Character,TreeMap <TreeSet<Etat>,TreeSet<Etat>>> map2=new TreeMap<>();
+
+    }
 }
