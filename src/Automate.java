@@ -199,6 +199,41 @@ public class Automate {
         }
         return true;
     }
+    public boolean isComplet(){
+        int i=0;
+        for (Etat e:this.ens){
+            for (char c:this.alpha.getAlpha()){
+                for (Instruction ins: this.instructions){
+                    if (ins.startsWith(e,c)) i++;
+                }
+                if (i==0) return false;
+                i=0;
+            }
+
+        }
+        return true;
+    }
+    public void Complet(){
+        if (!this.isComplet()){
+            Etat Sp=new Etat("SP");
+            this.ens.add(Sp);
+            int i=0;
+            for (Etat e:this.ens){
+                for (char c:this.alpha.getAlpha()){
+                    for (Instruction ins: this.instructions){
+                        if (ins.startsWith(e,c)) i++;
+                    }
+                    if (i==0) {
+                        Instruction in= new Instruction(e,Sp,c);
+                        this.instructions.add(in);
+                    }
+                    i=0;
+                }
+
+            }
+        }
+    }
+
     public void deterministe(){
 
         //TreeMap <TreeSet<Etat>,TreeSet<Etat>> map1=new TreeMap<>();
