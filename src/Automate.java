@@ -300,12 +300,13 @@ public class Automate {
                 if(ins.startsWith(etatCourant,c)){
                     etatCourant=ins.getEtatf();
                     i++;
+                    break;
                 }
             }
             if(i>k){k++;}
             else{t=false;}
         }
-        if (!this.ens.contains(etatCourant)){t=false;}
+        if (!this.etatFin.contains(etatCourant)){t=false;}
         return t;
         }
         else{return false;}

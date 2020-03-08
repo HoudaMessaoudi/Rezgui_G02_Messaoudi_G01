@@ -101,27 +101,27 @@ public class Main {
                 etatf.add(s2); //etatf.add(s4);
                 TreeSet<Instruction> ins= new TreeSet<Instruction>();
                 Instruction in1= new Instruction(s0, s0 ,'a');
-                Instruction in2= new Instruction(s0, s1 ,'a');
-                Instruction in3= new Instruction(s1, s2 ,'b');
-                Instruction in4= new Instruction(s2, s2 ,'a');
-                Instruction in5= new Instruction(s2, s1 ,'a');
-                Instruction in6= new Instruction(s2, s2 ,'a');
-                Instruction in7= new Instruction(s1, s0 ,'b');
+                Instruction in2= new Instruction(s0, s1 ,'b');
+                Instruction in3= new Instruction(s1, s2 ,'a');
+               // Instruction in4= new Instruction(s2, s2 ,'a');
+                //Instruction in7= new Instruction(s2, s1 ,'a');
+               // Instruction in6= new Instruction(s2, s2 ,'a');
+                Instruction in5= new Instruction(s1, s0 ,'b');
                 /*Instruction in8= new Instruction(s2, s1 ,'a');
                 Instruction in9= new Instruction(s1, s0 ,'c');
                 Instruction in10= new Instruction(s4, s0 ,'a');
                 Instruction in11= new Instruction(s4, s4 ,'b');*/
-                ins.add(in1); ins.add(in2); ins.add(in3); ins.add(in4); ins.add(in5); ins.add(in6); ins.add(in7);// ins.add(in8); ins.add(in9); ins.add(in10); ins.add(in11);
+                ins.add(in1); ins.add(in2); ins.add(in3); /*ins.add(in4);*/ ins.add(in5); //ins.add(in6); ins.add(in7);// ins.add(in8); ins.add(in9); ins.add(in10); ins.add(in11);
                 Automate automata = new Automate(alph,etats,s0,etatf,ins);
                 automata.afficher();
                 //System.out.println(automata.isDeterministe());
                // automata.reduction_accessible();
                // automata.reduction_coaccessible();
 
-                System.out.println("complet: "+automata.isComplet());
-                automata.complement();
-                automata.afficher();
-
+                //System.out.println("complet: "+automata.isComplet());
+                //automata.complement();
+                //automata.afficher();
+                System.out.println(automata.reconnaissance("aabbaaabbba"));
 
 
 
