@@ -19,6 +19,9 @@ public class Automate {
         this.etatFin = etatFin;
         this.instructions = instructions;
     }
+    public Automate(){
+
+    };
 
     public Alphabet getAlpha() {
         return alpha;
@@ -63,18 +66,19 @@ public class Automate {
     public void afficher(){
         System.out.print("L'alphabet ");
         this.alpha.afficher();
-        System.out.print("\nL'ensemble des : ");
+        System.out.print("\nL'ensemble des etats: ");
         for(Etat etat:this.ens){
             etat.afficher();}
         System.out.print("\nL'etat initial ");
         this.etatInit.afficher();
-        System.out.print("\nLes  finaux ");
+        System.out.print("\nLes etats finaux ");
         for(Etat etat:this.etatFin){
         etat.afficher();}
         System.out.print("\nL'ensemble des instructions ");
         for(Instruction instruction:this.instructions){
             instruction.afficher();
         }
+        System.out.print("\nsimple? : "+this.isSimple()+", Deterministe "+this.isDeterministe()+ ", Complet?  "+this.isComplet()+"\n");
 
     }
     public Automate Miroir(){
@@ -97,7 +101,6 @@ public class Automate {
         }else{
             etatIM=this.etatFin.first();
         }
-
 
         Automate automatem=new Automate(this.alpha,etatM,etatIM,etatFM,instructionsM);
 
@@ -173,6 +176,10 @@ public class Automate {
 
 
     }
+    public void reduction(){
+        this.reduction_accessible();
+        this.reduction_coaccessible();
+    }
     public boolean isDeterministe () {
         for(Etat etat:this.ens){
             for(Character character:this.alpha.getAlpha()){
@@ -246,30 +253,38 @@ public class Automate {
 
 
         TreeSet<InstructionM> instructionsM= new TreeSet<>();
-        TreeSet<TreeSet<Etat>>etatsM =  new TreeSet<>(new Froggo());
+        ArrayList<TreeSet<Etat>>etatsM =  new ArrayList<>(/*new Froggo()*/);
         TreeSet<Etat> etats=new TreeSet<>();
         etats.add(this.etatInit);
         etatsM.add(etats);
-        for(TreeSet<Etat> t: etatsM){
+        TreeSet<Etat> etatFNM= new TreeSet<>();
+        InstructionM instM = new InstructionM();
+        int i=0;
+        while(i<etatsM.size()){
+            TreeSet<Etat> t= etatsM.get(i);
             for(Etat e : t){
                 for (char c : this.alpha.getAlpha()){
-                    InstructionM instM;
-                    TreeSet<Etat> etatFNM= new TreeSet<>();
                     for(Instruction inst:this.instructions){
                         if(inst.startsWith(e,c)) {
+                            if(!etatFNM.contains(inst.getEtatf())){
                             etatFNM.add(inst.getEtatf());
+                            }
                         }
                     }
                     if(!etatFNM.isEmpty()){
-                        instM =new InstructionM(t,etatFNM,c);
+                        instM.setAl(c);
+                        instM.setEtatdb(t);
+                        instM.setEtatfn(etatFNM);
                         instructionsM.add(instM);
                         etatsM.add(etatFNM);
+                        etatFNM.clear();
                     }
                 }
             }
+            i++;
         }
         for(TreeSet<Etat> tr: etatsM) {
-            System.out.println("\netat: ");
+            System.out.println(" etat: ");
             for(Etat e: tr){
                 e.afficher();
             }
@@ -288,6 +303,7 @@ public class Automate {
 
     }
     public boolean reconnaissance(String mot){
+
         if(this.isDeterministe()){
         Etat etatCourant= this.etatInit;
         boolean t=true;

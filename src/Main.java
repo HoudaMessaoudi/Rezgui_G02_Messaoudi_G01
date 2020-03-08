@@ -1,9 +1,68 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
 
     public static void main (String args[])
-    {  /* Scanner mych9 = new Scanner(System.in);
+    {
+        Automate  automate= new Automate();
+        boolean out=false;
+        while(!out){
+
+            String menu ="*************************Menu*************************\n1- Creation Automate\n2- Réduction de l'Automate\n3- Complement de l'automate\n4- Automate miroir\n5- Reconnaissance D'un mot dans l'automate\n6- Quitter";
+             System.out.println(menu);
+            Scanner sc= new Scanner(System.in);
+            int in=sc.nextInt();
+
+
+            switch(in){
+                case(1):
+                    System.out.println("\"*************************Creation Automate*************************");
+                    automate=creationAutomate();
+                    automate.afficher();
+                    out=false;
+                    break;
+                case(2):
+                    System.out.println("\"*************************Réduction de l'Automate*************************");
+                    automate.reduction();
+                    automate.afficher();
+                    out=false;
+                    break;
+                case(3):
+                    System.out.println("\"*************************Complement de l'automate*************************");
+                    automate.complement();
+                    automate.afficher();
+                    out=false;
+                    break;
+                case(4):
+                    System.out.println("\"*************************Automate miroir*************************");
+                    automate=automate.Miroir();
+                    automate.afficher();
+                    out=false;
+                    break;
+                case(5):
+                    System.out.println("\"*************************Reconnaissance D'un mot dans l'automate*************************");
+                    System.out.println("Veuillez entrer un mot");
+                    String mot=sc.next();
+                    Boolean b=automate.reconnaissance(mot);
+                    if(b==true){
+                        System.out.println("L'automate connait le mot "+mot);
+                    }else{
+                        System.out.println("L'automate ne connait pas le mot "+mot);
+                    }
+                    out=false;
+                    break;
+                case(6):
+                default:
+
+                    out=true;
+
+            }
+        }
+    }
+
+    public static Automate creationAutomate(){
+         Scanner mych9 = new Scanner(System.in);
         System.out.println("Veuillez introduire le nombre de characteres dans votre alphabet: ");
         int car_alphabet= mych9.nextInt();
         TreeSet<Character> alpha = new TreeSet<Character>();
@@ -26,8 +85,14 @@ public class Main {
         }
         System.out.println("Veuillez Selectionner  l'etat initiale: ");
 
-        String EI=mych9.next();
-        Etat etatInit=new Etat(EI);
+        Etat etatInit= new Etat("");
+
+        while (true){
+            String f=mych9.next();
+            etatInit.setNom(f);
+            if (etats.contains(etatInit)) break;
+            System.out.println("l'etat "+ f +"n'existe pas");
+        }
 
         System.out.println("Veuillez introduire le nombre des etats fineaux: ");
         TreeSet<Etat> EF= new TreeSet<Etat>();
@@ -47,9 +112,7 @@ public class Main {
 
             EF.add(etatf);
         }
-        for(Etat etat : EF) {
-            etat.afficher();
-        }
+
         System.out.println("Veuillez Introduire le nombre des instruction");
             int nbInstruction= mych9.nextInt();
             TreeSet<Instruction> instructions=new TreeSet<Instruction>();
@@ -63,6 +126,13 @@ public class Main {
                     if (etats.contains(db)) break;
                     System.out.println("l'etat "+ f +"n'existe pas");
                 }
+                System.out.println("Veuillez entrer un character de l'alphabet  ");
+                char c;
+                while(true){
+                    c=mych9.next().charAt(0);
+                    if(alpha.contains(c)) break;
+                    System.out.println("le char "+ c +"n'existe pas");
+                }
                 System.out.println("Veuillez Selectionner l'etat fin: ");
                 Etat fn=new Etat("");
                 while (true){
@@ -71,60 +141,9 @@ public class Main {
                     if (etats.contains(fn)) break;
                     System.out.println("l'etat "+ f +"n'existe pas");
                 }
-                System.out.println("Veuillez entrer un character de l'alphabet  ");
-                char c;
-                    /*while(true){*/
-                        //c=mych9.next().charAt(0);
-                       /* if(alpha.contains(c)) break;
-                        System.out.println("le char "+ c +"n'existe pas");
-                    }/
                  Instruction instruction=new Instruction(db,fn,c);
                     instructions.add(instruction);
-
-
             }
-            for(Instruction inst: instructions){
-                inst.afficher();
-            }*/
-                TreeSet<Character> al= new TreeSet<Character>();
-                al.add('a'); al.add('b'); //al.add('c');
-                Alphabet alph = new Alphabet(al);
-                Etat s0= new Etat("s0");
-                Etat s1= new Etat("s1");
-                Etat s2= new Etat("s2");
-                Etat s3= new Etat("s3");
-                Etat s4= new Etat("s4");
-                Etat s5= new Etat("s5");
-                TreeSet<Etat> etats= new TreeSet<>();
-                etats.add(s0); etats.add(s1); etats.add(s2);/* etats.add(s3);etats.add(s4);etats.add(s5);*/
-                TreeSet<Etat> etatf= new TreeSet<Etat>();
-                etatf.add(s2); //etatf.add(s4);
-                TreeSet<Instruction> ins= new TreeSet<Instruction>();
-                Instruction in1= new Instruction(s0, s0 ,'a');
-                Instruction in2= new Instruction(s0, s1 ,'b');
-                Instruction in3= new Instruction(s1, s2 ,'a');
-               // Instruction in4= new Instruction(s2, s2 ,'a');
-                //Instruction in7= new Instruction(s2, s1 ,'a');
-               // Instruction in6= new Instruction(s2, s2 ,'a');
-                Instruction in5= new Instruction(s1, s0 ,'b');
-                /*Instruction in8= new Instruction(s2, s1 ,'a');
-                Instruction in9= new Instruction(s1, s0 ,'c');
-                Instruction in10= new Instruction(s4, s0 ,'a');
-                Instruction in11= new Instruction(s4, s4 ,'b');*/
-                ins.add(in1); ins.add(in2); ins.add(in3); /*ins.add(in4);*/ ins.add(in5); //ins.add(in6); ins.add(in7);// ins.add(in8); ins.add(in9); ins.add(in10); ins.add(in11);
-                Automate automata = new Automate(alph,etats,s0,etatf,ins);
-                automata.afficher();
-                //System.out.println(automata.isDeterministe());
-               // automata.reduction_accessible();
-               // automata.reduction_coaccessible();
-
-                //System.out.println("complet: "+automata.isComplet());
-                //automata.complement();
-                //automata.afficher();
-                System.out.println(automata.reconnaissance("aabbaaabbba"));
-
-
-
-
+            return new Automate(al,etats,etatInit,EF,instructions);
     }
 }

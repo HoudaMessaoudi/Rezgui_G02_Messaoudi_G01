@@ -5,11 +5,11 @@ public class InstructionM implements Comparable{
     private TreeSet<Etat> etatfn;
     private char al;
 
-    public InstructionM(TreeSet<Etat> etatdb, TreeSet<Etat> etatfn, char al) {
+    /*public InstructionM(TreeSet<Etat> etatdb, TreeSet<Etat> etatfn, char al) {
         this.etatdb = etatdb;
         this.etatfn = etatfn;
         this.al = al;
-    }
+    }*/
 
     public TreeSet<Etat> getEtatdb() {
         return etatdb;
