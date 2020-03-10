@@ -1,3 +1,5 @@
+import com.sun.source.util.Trees;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -5,7 +7,7 @@ public class Main {
 
     public static void main (String args[])
     {
-        Automate  automate= new Automate();
+      /*  Automate  automate= new Automate();
         boolean out=false;
         while(!out){
 
@@ -18,7 +20,7 @@ public class Main {
             switch(in){
                 case(1):
                     System.out.println("\"*************************Creation Automate*************************");
-                    automate=creationAutomate();
+                    automate=creerauto();
                     automate.afficher();
                     out=false;
                     break;
@@ -58,7 +60,11 @@ public class Main {
                     out=true;
 
             }
-        }
+        }*/
+      Automate a= creerauto();
+      a.reduction();
+      a.afficher();
+      a.deterministe();
     }
 
     public static Automate creationAutomate(){
@@ -145,5 +151,32 @@ public class Main {
                     instructions.add(instruction);
             }
             return new Automate(al,etats,etatInit,EF,instructions);
+    }
+    public static Automate creerauto(){
+        TreeSet<Character>al =new TreeSet<>();
+        al.add('a'); al.add('b');
+        Alphabet alpha= new Alphabet(al);
+        Etat s0= new Etat("s0");
+        Etat s1= new Etat("s1");
+        Etat s2= new Etat("s2");
+        Etat s3=new Etat("s3");
+        TreeSet<Etat> ens= new TreeSet<>();
+        ens.add(s0);ens.add(s1);ens.add(s2);ens.add(s3);
+        TreeSet<Etat> etatsf= new TreeSet<>();
+        etatsf.add(s2);
+        etatsf.add(s0);
+        Instruction ins0= new Instruction(s0,s0,'a');
+        Instruction ins1= new Instruction(s0,s1,'b');
+        Instruction ins2= new Instruction(s1,s1,'b');
+        Instruction ins3= new Instruction(s1,s0,'a');
+        Instruction ins4= new Instruction(s1,s2,'a');
+        Instruction ins5= new Instruction(s2,s3,'a');
+        Instruction ins6= new Instruction(s3,s3,'a');
+        Instruction ins7= new Instruction(s3,s3,'b');
+        Instruction ins8= new Instruction(s2,s0,'a');
+        TreeSet<Instruction> instructions= new TreeSet<>();
+        instructions.add(ins0); instructions.add(ins1); instructions.add(ins2); instructions.add(ins3); instructions.add(ins4); instructions.add(ins5); instructions.add(ins6); instructions.add(ins7); instructions.add(ins8);
+        return new Automate(alpha,ens, s0,etatsf,instructions) ;
+
     }
 }

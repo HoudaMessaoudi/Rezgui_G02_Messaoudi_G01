@@ -242,28 +242,17 @@ public class Automate {
     }
 
     public void deterministe(){
-
-        //TreeMap <TreeSet<Etat>,TreeSet<Etat>> map1=new TreeMap<>();
-       // TreeMap<TreeSet<Etat>/*EtatDb*/,TreeMap <Character,TreeSet<Etat>/*EtatFN*/>> map2=new TreeMap<>();
-        //if(this.isSimple()){
-         //   TreeSet<Etat> etatDet= new TreeSet<>();
-           // etatDet.add(this.etatInit);
-
-        //}
-
-
         TreeSet<InstructionM> instructionsM= new TreeSet<>();
         ArrayList<TreeSet<Etat>>etatsM =  new ArrayList<>(/*new Froggo()*/);
         TreeSet<Etat> etats=new TreeSet<>();
         etats.add(this.etatInit);
         etatsM.add(etats);
-        TreeSet<Etat> etatFNM= new TreeSet<>();
-        InstructionM instM = new InstructionM();
         int i=0;
         while(i<etatsM.size()){
             TreeSet<Etat> t= etatsM.get(i);
             for(Etat e : t){
                 for (char c : this.alpha.getAlpha()){
+                    TreeSet<Etat> etatFNM= new TreeSet<>();
                     for(Instruction inst:this.instructions){
                         if(inst.startsWith(e,c)) {
                             if(!etatFNM.contains(inst.getEtatf())){
@@ -272,12 +261,15 @@ public class Automate {
                         }
                     }
                     if(!etatFNM.isEmpty()){
-                        instM.setAl(c);
+                        InstructionM instM = new InstructionM(t,etatFNM,c);
+                        /*instM.setAl(c);
                         instM.setEtatdb(t);
-                        instM.setEtatfn(etatFNM);
+                        instM.setEtatfn(etatFNM);*/
                         instructionsM.add(instM);
-                        etatsM.add(etatFNM);
-                        etatFNM.clear();
+                        if (!etatsM.contains(etatFNM)) {
+                            etatsM.add(etatFNM);
+                        }
+                        //etatFNM.clear();
                     }
                 }
             }
@@ -290,6 +282,10 @@ public class Automate {
             }
 
         }
+        for(InstructionM inst: instructionsM){
+            inst.afficher();
+        }
+
     }
 
     public void complement(){
