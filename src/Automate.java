@@ -241,9 +241,9 @@ public class Automate {
         }
     }
 
-    public void deterministe(){
+    public Automate deterministe(){
         TreeSet<InstructionM> instructionsM= new TreeSet<>();
-        ArrayList<TreeSet<Etat>>etatsM =  new ArrayList<>(/*new Froggo()*/);
+        ArrayList<TreeSet<Etat>>etatsM =  new ArrayList<>();
         TreeSet<Etat> etats=new TreeSet<>();
         etats.add(this.etatInit);
         etatsM.add(etats);
@@ -262,30 +262,58 @@ public class Automate {
                     }
                     if(!etatFNM.isEmpty()){
                         InstructionM instM = new InstructionM(t,etatFNM,c);
-                        /*instM.setAl(c);
-                        instM.setEtatdb(t);
-                        instM.setEtatfn(etatFNM);*/
                         instructionsM.add(instM);
                         if (!etatsM.contains(etatFNM)) {
                             etatsM.add(etatFNM);
                         }
-                        //etatFNM.clear();
                     }
                 }
             }
             i++;
         }
+        ArrayList<TreeSet<Etat>> etatsMF= new ArrayList<>();
         for(TreeSet<Etat> tr: etatsM) {
-            System.out.println(" etat: ");
+            //System.out.println(" etat: ");
             for(Etat e: tr){
-                e.afficher();
+               if (this.etatFin.contains(e)) {
+                   etatsMF.add(tr);
+                   break;
+               }
             }
 
         }
-        for(InstructionM inst: instructionsM){
-            inst.afficher();
+        TreeSet<Etat> ens2= new TreeSet<>();
+        String nom_etat;
+        for(TreeSet<Etat> tr: etatsM){
+            nom_etat="";
+            for(Etat e: tr){
+                nom_etat= nom_etat.concat(e.getNom());
+            }
+            ens2.add(new Etat(nom_etat));
         }
-
+        TreeSet<Etat> ens3= new TreeSet<>();
+        for (TreeSet<Etat> tr: etatsMF){
+            nom_etat="";
+            for(Etat e: tr){
+                nom_etat= nom_etat.concat(e.getNom());
+            }
+            ens3.add(new Etat(nom_etat));
+        }
+        TreeSet<Instruction> inst= new TreeSet<>();
+        String nom_etatd;
+        String nom_etatf;
+        for(InstructionM ins: instructionsM){
+            nom_etatd="";
+            nom_etatf="";
+            for(Etat e: ins.getEtatdb()){
+                nom_etatd=nom_etatd.concat(e.getNom());
+            }
+            for (Etat e: ins.getEtatfn()){
+                nom_etatf=nom_etatf.concat(e.getNom());
+            }
+            inst.add(new Instruction(new Etat(nom_etatd),new Etat(nom_etatf),ins.getAl()));
+        }
+        return new Automate(this.alpha,ens2,this.etatInit,ens3,inst);
     }
 
     public void complement(){

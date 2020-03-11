@@ -64,7 +64,8 @@ public class Main {
       Automate a= creerauto();
       a.reduction();
       a.afficher();
-      a.deterministe();
+      Automate b= a.deterministe();
+      b.afficher();
     }
 
     public static Automate creationAutomate(){
