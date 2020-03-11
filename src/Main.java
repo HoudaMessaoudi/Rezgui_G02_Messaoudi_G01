@@ -7,12 +7,13 @@ public class Main {
 
     public static void main (String args[])
     {
-      /*  Automate  automate= new Automate();
+       Automate  automate= new Automate();
         boolean out=false;
         while(!out){
 
-            String menu ="*************************Menu*************************\n1- Creation Automate\n2- Réduction de l'Automate\n3- Complement de l'automate\n4- Automate miroir\n5- Reconnaissance D'un mot dans l'automate\n6- Quitter";
-             System.out.println(menu);
+            String menu ="*************************Menu*************************\n1- Creation Automate\n2- Réduction de l'Automate \n3- Transformer l'automate simple non déterministe en automate simple déterministe\n4- Complement de l'automate\n5- Automate miroir\n6- Reconnaissance D'un mot dans l'automate\n7- Quitter";
+            System.out.println(menu);
+            System.out.print("Choisissez l'opération que vous voulez faire: ");
             Scanner sc= new Scanner(System.in);
             int in=sc.nextInt();
 
@@ -20,7 +21,13 @@ public class Main {
             switch(in){
                 case(1):
                     System.out.println("\"*************************Creation Automate*************************");
-                    automate=creerauto();
+                    automate=creationAutomate();
+                    automate.afficher();
+                    out=false;
+                    break;
+                case(3):
+                    System.out.println("\"*************************Transformation en automate déterministe*************************");
+                    automate.deterministe();
                     automate.afficher();
                     out=false;
                     break;
@@ -30,19 +37,19 @@ public class Main {
                     automate.afficher();
                     out=false;
                     break;
-                case(3):
+                case(4):
                     System.out.println("\"*************************Complement de l'automate*************************");
                     automate.complement();
                     automate.afficher();
                     out=false;
                     break;
-                case(4):
+                case(5):
                     System.out.println("\"*************************Automate miroir*************************");
                     automate=automate.Miroir();
                     automate.afficher();
                     out=false;
                     break;
-                case(5):
+                case(6):
                     System.out.println("\"*************************Reconnaissance D'un mot dans l'automate*************************");
                     System.out.println("Veuillez entrer un mot");
                     String mot=sc.next();
@@ -54,26 +61,27 @@ public class Main {
                     }
                     out=false;
                     break;
-                case(6):
+                case(7):
                 default:
 
                     out=true;
 
             }
-        }*/
-      Automate a= creerauto();
+        }
+      /*Automate a= creerauto();
       a.reduction();
       a.afficher();
       Automate b= a.deterministe();
-      b.afficher();
+      b.afficher();*/
     }
 
     public static Automate creationAutomate(){
          Scanner mych9 = new Scanner(System.in);
-        System.out.println("Veuillez introduire le nombre de characteres dans votre alphabet: ");
+        System.out.println("Veuillez introduire le nombre de charactères dans votre alphabet: ");
         int car_alphabet= mych9.nextInt();
         TreeSet<Character> alpha = new TreeSet<Character>();
         for(int i=0; i<car_alphabet; i++){
+            System.out.println("Introduire le charactère numéro "+(i+1)+" de l'alphabet : ");
             char ch =mych9.next().charAt(0);
             alpha.add(ch);
         }
@@ -82,15 +90,16 @@ public class Main {
         int nbEtat=mych9.nextInt();
         TreeSet<Etat>  etats=new TreeSet<Etat> ();
         for(int i=0;i<nbEtat;i++){
+            System.out.println("Donner le nom du état numéro "+(i+1)+": ");
             String nom=mych9.next();
             etats.add(new Etat(nom));
 
         }
-        System.out.print("L'ensemble des etats est: ");
+        System.out.print("\nL'ensemble des etats est: ");
         for(Etat e: etats){
             e.afficher();
         }
-        System.out.println("Veuillez Selectionner  l'etat initiale: ");
+        System.out.println("Veuillez Selectionner l'etat initial: ");
 
         Etat etatInit= new Etat("");
 
@@ -98,7 +107,7 @@ public class Main {
             String f=mych9.next();
             etatInit.setNom(f);
             if (etats.contains(etatInit)) break;
-            System.out.println("l'etat "+ f +"n'existe pas");
+            System.out.println("l'etat "+ f +"n'existe pas! Choisissez un état éxistant: ");
         }
 
         System.out.println("Veuillez introduire le nombre des etats fineaux: ");
@@ -110,11 +119,11 @@ public class Main {
 
 
                 while (true){
-
+                    System.out.println("Entrez l'état final numéro "+(i+1)+": ");
                     String f=mych9.next();
                      etatf.setNom(f);
                     if (etats.contains(etatf)) break;
-                    System.out.println("l'etat "+ f +"n'existe pas");
+                    System.out.println("l'etat "+ f +"n'existe pas! Choisissez un état éxistant: ");
                 }
 
             EF.add(etatf);
@@ -124,21 +133,21 @@ public class Main {
             int nbInstruction= mych9.nextInt();
             TreeSet<Instruction> instructions=new TreeSet<Instruction>();
             for(int i=0;i<nbInstruction;i++){
-                System.out.println("**************"+(i+1)+"*************");
+                System.out.println("**************Instruction numéro "+(i+1)+"*************");
                 System.out.println("Veuillez Selectionner l'etat Debut: ");
                 Etat db=new Etat("");
                 while (true){
                     String f=mych9.next();
                     db.setNom(f);
                     if (etats.contains(db)) break;
-                    System.out.println("l'etat "+ f +"n'existe pas");
+                    System.out.println("l'etat "+ f +"n'existe pas! Choisissez un état éxistant: ");
                 }
-                System.out.println("Veuillez entrer un character de l'alphabet  ");
+                System.out.println("Veuillez entrer un charactère de l'alphabet  ");
                 char c;
                 while(true){
                     c=mych9.next().charAt(0);
                     if(alpha.contains(c)) break;
-                    System.out.println("le char "+ c +"n'existe pas");
+                    System.out.println("le charactère "+ c +" ne figure pas dans l'alphabet! Choisissez un charactère de l'alphabet: ");
                 }
                 System.out.println("Veuillez Selectionner l'etat fin: ");
                 Etat fn=new Etat("");
@@ -146,7 +155,7 @@ public class Main {
                     String f=mych9.next();
                     fn.setNom(f);
                     if (etats.contains(fn)) break;
-                    System.out.println("l'etat "+ f +"n'existe pas");
+                    System.out.println("l'etat "+ f +"n'existe pas! Choisissez un état éxistant: ");
                 }
                  Instruction instruction=new Instruction(db,fn,c);
                     instructions.add(instruction);
